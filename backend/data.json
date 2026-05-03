@@ -1,5 +1,19 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "1777828532902",
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "$2a$12$Hg0poz8U3hUSHQW5xfdwYOgdoe0r3PLLcFAbPMKm.2.L6gNKmGBVy",
+      "createdAt": "2026-05-03T17:15:32.902Z",
+      "subscription": "free",
+      "usage": {
+        "dailySearches": 0,
+        "monthlySearches": 0,
+        "lastResetDate": "2026-05-03T17:15:32.902Z"
+      }
+    }
+  ],
   "videos": [],
   "analytics": {}
 }

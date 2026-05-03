@@ -161,15 +161,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle login form submission
     const loginForm = document.querySelector('.auth-form');
-    if (loginForm && loginForm.action.includes('login')) {
+    if (loginForm && loginForm.action && loginForm.action.includes('login.html')) {
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            console.log('Login form submitted');
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            console.log('Email:', email, 'Password:', password);
             
             try {
                 const result = await authAPI.login(email, password);
+                console.log('Login result:', result);
                 if (result.success) {
                     localStorage.setItem('token', result.token);
                     localStorage.setItem('user', JSON.stringify(result.user));
@@ -178,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert(result.message || 'Login failed');
                 }
             } catch (error) {
+                console.error('Login error:', error);
                 alert('Login failed. Please try again.');
             }
         });
@@ -185,18 +189,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle register form submission
     const registerForm = document.querySelector('.auth-form');
-    if (registerForm && registerForm.action.includes('register')) {
+    if (registerForm && registerForm.action && registerForm.action.includes('register.html')) {
         registerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            console.log('Register form submitted');
             
             const userData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value
             };
+            console.log('User data:', userData);
             
             try {
                 const result = await authAPI.register(userData);
+                console.log('Register result:', result);
                 if (result.success) {
                     alert('Registration successful! Please login.');
                     window.location.href = 'login.html';
@@ -204,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert(result.message || 'Registration failed');
                 }
             } catch (error) {
+                console.error('Register error:', error);
                 alert('Registration failed. Please try again.');
             }
         });
