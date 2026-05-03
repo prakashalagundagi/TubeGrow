@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
     <header class="header">
         <nav class="nav">
             <div class="container">
@@ -34,7 +33,7 @@
                             <p>Sign in to your TubeGrow account</p>
                         </div>
                         
-                        <form class="auth-form" id="loginForm" method="POST" onsubmit="return false;">
+                        <form id="loginForm" method="POST" onsubmit="return false;">
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -45,27 +44,8 @@
                                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
                             </div>
                             
-                            <div class="form-options">
-                                <label class="checkbox">
-                                    <input type="checkbox" name="remember">
-                                    <span>Remember me</span>
-                                </label>
-                                <a href="#" class="forgot-password">Forgot password?</a>
-                            </div>
-                            
                             <button type="submit" class="btn btn-primary full-width">Sign In</button>
                         </form>
-                        
-                        <div class="auth-divider">
-                            <span>or</span>
-                        </div>
-                        
-                        <div class="social-login">
-                            <button class="btn btn-outline full-width">
-                                <span class="icon">🔗</span>
-                                Continue with Google
-                            </button>
-                        </div>
                         
                         <div class="auth-footer">
                             <p>Don't have an account? <a href="register.html">Sign up</a></p>
@@ -76,7 +56,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
@@ -84,6 +63,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();

@@ -12,6 +12,19 @@
         "monthlySearches": 0,
         "lastResetDate": "2026-05-03T17:15:32.902Z"
       }
+    },
+    {
+      "id": "1777830333970",
+      "name": "Test User",
+      "email": "new@example.com",
+      "password": "$2a$12$rx5V0OauyChPLEYJf8e66ueHMMkdpn/Jxk9tXXXRCPr7FqM5buc1S",
+      "createdAt": "2026-05-03T17:45:33.970Z",
+      "subscription": "free",
+      "usage": {
+        "dailySearches": 0,
+        "monthlySearches": 0,
+        "lastResetDate": "2026-05-03T17:45:33.970Z"
+      }
     }
   ],
   "videos": [],
