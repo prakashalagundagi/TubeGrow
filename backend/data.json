@@ -25,6 +25,32 @@
         "monthlySearches": 0,
         "lastResetDate": "2026-05-03T17:45:33.970Z"
       }
+    },
+    {
+      "id": "1777830857464",
+      "name": "Prakash Alagundagi",
+      "email": "test@examle.com",
+      "password": "$2a$12$HOU5xsK6KTjSzpZ9oup07eWg9h92716HcnkQvc1L14drnotmC3LDC",
+      "createdAt": "2026-05-03T17:54:17.464Z",
+      "subscription": "free",
+      "usage": {
+        "dailySearches": 0,
+        "monthlySearches": 0,
+        "lastResetDate": "2026-05-03T17:54:17.464Z"
+      }
+    },
+    {
+      "id": "1777831215643",
+      "name": "Prakash Alagundagi",
+      "email": "test@exampl.com",
+      "password": "$2a$12$6Zmufgkg2APmua/PVa2Wt.uKcBsnb/DKTCS/14bRhUoTSBBs89ML2",
+      "createdAt": "2026-05-03T18:00:15.643Z",
+      "subscription": "free",
+      "usage": {
+        "dailySearches": 0,
+        "monthlySearches": 0,
+        "lastResetDate": "2026-05-03T18:00:15.643Z"
+      }
     }
   ],
   "videos": [],
