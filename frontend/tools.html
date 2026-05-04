@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - TubeGrow | Advanced YouTube Growth Tools</title>
+    <meta name="description" content="Professional YouTube growth tools: keyword research, video optimization, competitor analysis, thumbnail generator, and more.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-container">
+                    <div class="logo">
+                        <h1><a href="index.html" style="color: #2563eb; text-decoration: none;">TubeGrow</a></h1>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Home</a></li>
+                        <li><a href="tools.html" class="nav-link active">Tools</a></li>
+                        <li><a href="analytics.html" class="nav-link">Analytics</a></li>
+                        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="login.html" class="btn btn-primary">Get Started</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Tools Hero -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">Professional YouTube Tools</h1>
+                        <p class="hero-subtitle">AI-powered tools to accelerate your channel growth and maximize your reach</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Grid -->
+        <section class="tools-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Powerful Growth Tools</h2>
+                    <p>Everything you need to succeed on YouTube</p>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card-large">
+                        <div class="tool-header">
+                            <div class="tool-icon-large">🔍</div>
+                            <h3>Keyword Research</h3>
+                        </div>
+                        <div class="tool-content">
+                            <p>Find high-ranking keywords with AI-powered search volume and competition analysis</p>
+                            <ul class="tool-features">
+                                <li>Search volume analysis</li>
+                                <li>Competition level tracking</li>
+                                <li>Trending keyword discovery</li>
+                                <li>Keyword difficulty scoring</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startKeywordTool()">Launch Tool</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-card-large">
+                        <div class="tool-header">
+                            <div class="tool-icon-large">🎬</div>
+                            <h3>Video Optimizer</h3>
+                        </div>
+                        <div class="tool-content">
+                            <p>AI-powered titles, descriptions, and tags for maximum visibility</p>
+                            <ul class="tool-features">
+                                <li>Title optimization</li>
+                                <li>Description enhancement</li>
+                                <li>Tag generation</li>
+                                <li>SEO score analysis</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startOptimizerTool()">Launch Tool</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-card-large">
+                        <div class="tool-header">
+                            <div class="tool-icon-large">🏆</div>
+                            <h3>Competitor Analysis</h3>
+                        </div>
+                        <div class="tool-content">
+                            <p>Track competitors and discover their growth strategies</p>
+                            <ul class="tool-features">
+                                <li>Competitor tracking</li>
+                                <li>Strategy analysis</li>
+                                <li>Performance comparison</li>
+                                <li>Growth insights</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startCompetitorTool()">Launch Tool</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-card-large">
+                        <div class="tool-header">
+                            <div class="tool-icon-large">🎨</div>
+                            <h3>Thumbnail Generator</h3>
+                        </div>
+                        <div class="tool-content">
+                            <p>Create stunning thumbnails that drive clicks and engagement</p>
+                            <ul class="tool-features">
+                                <li>AI-powered designs</li>
+                                <li>Template library</li>
+                                <li>Brand customization</li>
+                                <li>A/B testing</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startThumbnailTool()">Launch Tool</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tool Modals -->
+        <div id="keywordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Keyword Research Tool</h3>
+                    <span class="close" onclick="closeModal('keywordModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="keywordInput" placeholder="Enter keyword to research..." class="modal-input">
+                    <button class="btn btn-primary" onclick="researchKeyword()">Research Keyword</button>
+                    <div id="keywordResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="optimizerModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Video Optimizer</h3>
+                    <span class="close" onclick="closeModal('optimizerModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="videoTitle" placeholder="Enter video title..." class="modal-input">
+                    <textarea id="videoDescription" placeholder="Enter video description..." class="modal-textarea"></textarea>
+                    <button class="btn btn-primary" onclick="optimizeVideo()">Optimize Video</button>
+                    <div id="optimizerResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="competitorModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Competitor Analysis</h3>
+                    <span class="close" onclick="closeModal('competitorModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="competitorChannel" placeholder="Enter competitor channel URL..." class="modal-input">
+                    <button class="btn btn-primary" onclick="analyzeCompetitor()">Analyze Competitor</button>
+                    <div id="competitorResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="thumbnailModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Thumbnail Generator</h3>
+                    <span class="close" onclick="closeModal('thumbnailModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="thumbnailText" placeholder="Enter thumbnail text..." class="modal-input">
+                    <button class="btn btn-primary" onclick="generateThumbnail()">Generate Thumbnail</button>
+                    <div id="thumbnailResults"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="tools.html">Tools</a></li>
+                        <li><a href="analytics.html">Analytics</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TubeGrow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
