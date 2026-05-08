@@ -1,31 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TubeGrow - Advanced YouTube Growth Platform | AI-Powered Tools</title>
-    <meta name="description" content="Transform your YouTube channel with AI-powered analytics, keyword research, competitor analysis, and video optimization tools. Grow faster with TubeGrow.">
-    <meta name="keywords" content="YouTube growth, video optimization, YouTube analytics, AI tools, keyword research, competitor analysis">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>TubeGrow - YouTube Growth Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        .header { background: white; padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { color: #2563eb; font-size: 1.5rem; }
+        .nav-menu { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-link { text-decoration: none; color: #666; padding: 0.5rem 1rem; border-radius: 4px; }
+        .nav-link:hover { color: #2563eb; background: rgba(37, 99, 235, 0.1); }
+        .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; }
+        .btn:hover { background: #1d4ed8; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 0; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; }
+        .btn-outline { background: transparent; color: white; border: 2px solid white; }
+        .btn-outline:hover { background: white; color: #764ba2; }
+        
+        .section { padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .stat-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card h3 { font-size: 2rem; color: #2563eb; margin-bottom: 0.5rem; }
+        
+        .footer { background: #333; color: white; padding: 2rem 0; text-align: center; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
     <header class="header">
         <nav class="nav">
             <div class="container">
-                <div class="nav-container">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div class="logo">
-                        <h1><a href="index.html" style="color: #2563eb; text-decoration: none;">TubeGrow</a></h1>
+                        <h1>TubeGrow</h1>
                     </div>
                     <ul class="nav-menu">
-                        <li><a href="index.html" class="nav-link active">Home</a></li>
-                        <li><a href="tools.html" class="nav-link">Tools</a></li>
-                        <li><a href="analytics.html" class="nav-link">Analytics</a></li>
-                        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
-                        <li><a href="login.html" class="btn btn-primary">Get Started</a></li>
+                        <li><a href="#" class="nav-link">Home</a></li>
+                        <li><a href="#tools" class="nav-link">Tools</a></li>
+                        <li><a href="#analytics" class="nav-link">Analytics</a></li>
+                        <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                        <li><a href="login.html" class="btn">Get Started</a></li>
                     </ul>
                 </div>
             </div>
@@ -33,209 +55,59 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
+        <section class="hero">
             <div class="container">
-                <div class="hero-content">
-                    <div class="hero-text">
-                        <h1 class="hero-title">Transform Your YouTube Channel with AI</h1>
-                        <p class="hero-subtitle">Advanced tools for keyword research, competitor analysis, video optimization, and growth analytics</p>
-                        <div class="hero-buttons">
-                            <a href="dashboard.html" class="btn btn-primary btn-large">Start Growing</a>
-                            <a href="tools.html" class="btn btn-outline btn-large">Explore Tools</a>
-                        </div>
-                    </div>
-                    <div class="hero-visual">
-                        <div class="hero-graphic">
-                            <div class="growth-chart">
-                                <div class="chart-bar" style="height: 80%;"></div>
-                                <div class="chart-bar" style="height: 60%;"></div>
-                                <div class="chart-bar" style="height: 90%;"></div>
-                                <div class="chart-bar" style="height: 70%;"></div>
-                                <div class="chart-bar" style="height: 95%;"></div>
-                            </div>
-                        </div>
-                    </div>
+                <h1>Transform Your YouTube Channel</h1>
+                <p>Advanced tools for keyword research, video optimization, and growth analytics</p>
+                <div class="hero-buttons">
+                    <a href="dashboard.html" class="btn">Start Growing</a>
+                    <a href="tools.html" class="btn btn-outline">Explore Tools</a>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Section -->
-        <section class="stats-section">
+        <section class="section">
             <div class="container">
+                <div class="section-header">
+                    <h2>Why Choose TubeGrow?</h2>
+                    <p>Powerful features to accelerate your YouTube success</p>
+                </div>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">📈</div>
-                        <h3>500K+</h3>
-                        <p>Channels Optimized</p>
+                        <h3>📊 Analytics</h3>
+                        <p>Deep insights into your channel performance</p>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">🎯</div>
-                        <h3>2M+</h3>
-                        <p>Keywords Researched</p>
+                        <h3>🔍 Research</h3>
+                        <p>Find trending topics and optimize content</p>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">🚀</div>
-                        <h3>300%</h3>
-                        <p>Average Growth Rate</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⚡</div>
-                        <h3>24/7</h3>
-                        <p>Real-time Analytics</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Powerful Growth Tools</h2>
-                    <p>Everything you need to dominate YouTube</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🔍</div>
-                        <h3>Keyword Research</h3>
-                        <p>Find high-ranking keywords with AI-powered search volume and competition analysis</p>
-                        <a href="tools.html" class="feature-link">Explore Tool →</a>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Video Analytics</h3>
-                        <p>Deep insights into performance, engagement, and audience demographics</p>
-                        <a href="analytics.html" class="feature-link">View Analytics →</a>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎬</div>
-                        <h3>Video Optimizer</h3>
-                        <p>AI-powered titles, descriptions, and tags for maximum visibility</p>
-                        <a href="tools.html" class="feature-link">Optimize Videos →</a>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🏆</div>
-                        <h3>Competitor Analysis</h3>
-                        <p>Track competitors and discover their growth strategies</p>
-                        <a href="tools.html" class="feature-link">Analyze Competitors →</a>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎨</div>
-                        <h3>Thumbnail Generator</h3>
-                        <p>Create stunning thumbnails that drive clicks and engagement</p>
-                        <a href="tools.html" class="feature-link">Generate Thumbnails →</a>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📈</div>
-                        <h3>Growth Tracking</h3>
-                        <p>Monitor channel growth with real-time dashboards and reports</p>
-                        <a href="dashboard.html" class="feature-link">Track Growth →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tools Preview Section -->
-        <section class="tools-preview-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Advanced YouTube Tools</h2>
-                    <p>Professional-grade features for serious creators</p>
-                </div>
-                <div class="tools-showcase">
-                    <div class="tool-card">
-                        <div class="tool-preview">
-                            <div class="mini-chart">📊</div>
-                        </div>
-                        <h4>Analytics Dashboard</h4>
-                        <p>Real-time performance metrics and insights</p>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-preview">
-                            <div class="mini-chart">🔍</div>
-                        </div>
-                        <h4>Keyword Finder</h4>
-                        <p>Discover trending topics and high-value keywords</p>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-preview">
-                            <div class="mini-chart">🎬</div>
-                        </div>
-                        <h4>Video Optimizer</h4>
-                        <p>AI-powered titles, descriptions, tags</p>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-preview">
-                            <div class="mini-chart">🏆</div>
-                        </div>
-                        <h4>Competitor Spy</h4>
-                        <p>Analyze competitor strategies and performance</p>
-                    </div>
-                </div>
-                <div class="tools-cta">
-                    <a href="tools.html" class="btn btn-primary btn-large">View All Tools</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>Ready to Grow Your Channel?</h2>
-                    <p>Join thousands of creators using TubeGrow to accelerate their YouTube success</p>
-                    <div class="cta-buttons">
-                        <a href="register.html" class="btn btn-primary btn-large">Create Free Account</a>
-                        <a href="tools.html" class="btn btn-outline btn-large">Try Tools Now</a>
+                        <h3>🚀 Growth</h3>
+                        <p>AI-powered recommendations for rapid growth</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Product</h4>
-                    <ul>
-                        <li><a href="tools.html">Tools</a></li>
-                        <li><a href="analytics.html">Analytics</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="terms.html">Terms of Service</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Connect</h4>
-                    <ul>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">LinkedIn</a></li>
-                        <li><a href="#">YouTube</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 TubeGrow. All rights reserved.</p>
-            </div>
+            <p>&copy; 2024 TubeGrow. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        console.log('TubeGrow homepage loaded');
+        
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A') {
+                const href = e.target.getAttribute('href');
+                if (href && href !== '#' && href !== window.location.href) {
+                    console.log('Navigating to:', href);
+                    window.location.href = href;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
