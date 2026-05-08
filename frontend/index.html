@@ -1,113 +1,536 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TubeGrow - YouTube Growth Platform</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        .header { background: white; padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo h1 { color: #2563eb; font-size: 1.5rem; }
-        .nav-menu { display: flex; list-style: none; gap: 2rem; align-items: center; }
-        .nav-link { text-decoration: none; color: #666; padding: 0.5rem 1rem; border-radius: 4px; }
-        .nav-link:hover { color: #2563eb; background: rgba(37, 99, 235, 0.1); }
-        .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; }
-        .btn:hover { background: #1d4ed8; }
-        
-        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 0; text-align: center; }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; }
-        .btn-outline { background: transparent; color: white; border: 2px solid white; }
-        .btn-outline:hover { background: white; color: #764ba2; }
-        
-        .section { padding: 80px 0; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        .stat-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        .stat-card h3 { font-size: 2rem; color: #2563eb; margin-bottom: 0.5rem; }
-        
-        .footer { background: #333; color: white; padding: 2rem 0; text-align: center; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TubeGrow - Advanced YouTube Analytics & Growth Platform</title>
+    <meta name="description" content="Transform your YouTube channel with AI-powered analytics, comment analysis, sentiment tracking, and growth insights">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation -->
     <header class="header">
-        <nav class="nav">
+        <nav class="navbar">
             <div class="container">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="nav-container">
                     <div class="logo">
-                        <h1>TubeGrow</h1>
+                        <h1><i class="fab fa-youtube"></i> TubeGrow</h1>
                     </div>
                     <ul class="nav-menu">
-                        <li><a href="#" class="nav-link">Home</a></li>
-                        <li><a href="#tools" class="nav-link">Tools</a></li>
-                        <li><a href="#analytics" class="nav-link">Analytics</a></li>
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#analyzer" class="nav-link">Comment Analyzer</a></li>
                         <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
-                        <li><a href="login.html" class="btn">Get Started</a></li>
+                        <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                        <li><a href="login.html" class="btn btn-primary">Get Started</a></li>
                     </ul>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="hero">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
             <div class="container">
-                <h1>Transform Your YouTube Channel</h1>
-                <p>Advanced tools for keyword research, video optimization, and growth analytics</p>
-                <div class="hero-buttons">
-                    <a href="dashboard.html" class="btn">Start Growing</a>
-                    <a href="tools.html" class="btn btn-outline">Explore Tools</a>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            <span class="gradient-text">Transform Your YouTube</span>
+                            <br>Channel with AI
+                        </h1>
+                        <p class="hero-subtitle">
+                            Advanced YouTube analytics, comment sentiment analysis, and growth insights powered by artificial intelligence
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="#analyzer" class="btn btn-primary btn-large">
+                                <i class="fas fa-chart-line"></i> Analyze Comments
+                            </a>
+                            <a href="login.html" class="btn btn-outline btn-large">
+                                <i class="fas fa-rocket"></i> Start Free Trial
+                            </a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number" data-count="50000">0</span>
+                                <span class="stat-label">Channels Analyzed</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" data-count="1000000">0</span>
+                                <span class="stat-label">Comments Processed</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" data-count="95">0</span>
+                                <span class="stat-label">% Accuracy Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="floating-card">
+                            <div class="card-header">
+                                <div class="channel-info">
+                                    <img src="https://picsum.photos/seed/channel/40/40.jpg" alt="Channel">
+                                    <div>
+                                        <h4>Growth Analytics</h4>
+                                        <span class="badge success">+45% Growth</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="sentiment-chart">
+                                    <div class="sentiment-bar positive" style="width: 65%"></div>
+                                    <div class="sentiment-bar neutral" style="width: 25%"></div>
+                                    <div class="sentiment-bar negative" style="width: 10%"></div>
+                                </div>
+                                <div class="sentiment-legend">
+                                    <span class="legend-item positive">Positive 65%</span>
+                                    <span class="legend-item neutral">Neutral 25%</span>
+                                    <span class="legend-item negative">Negative 10%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section">
+        <!-- Features Section -->
+        <section id="features" class="features">
             <div class="container">
                 <div class="section-header">
-                    <h2>Why Choose TubeGrow?</h2>
-                    <p>Powerful features to accelerate your YouTube success</p>
+                    <h2 class="section-title">Powerful Features for YouTube Success</h2>
+                    <p class="section-subtitle">Everything you need to grow your YouTube channel with data-driven insights</p>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>📊 Analytics</h3>
-                        <p>Deep insights into your channel performance</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Comment Sentiment Analysis</h3>
+                        <p>Analyze thousands of comments instantly with AI-powered sentiment detection to understand audience emotions</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Real-time sentiment tracking</li>
+                            <li><i class="fas fa-check"></i> Emotion detection</li>
+                            <li><i class="fas fa-check"></i> Trend analysis</li>
+                        </ul>
                     </div>
-                    <div class="stat-card">
-                        <h3>🔍 Research</h3>
-                        <p>Find trending topics and optimize content</p>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Advanced Analytics Dashboard</h3>
+                        <p>Comprehensive analytics with interactive charts and real-time data visualization</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Performance metrics</li>
+                            <li><i class="fas fa-check"></i> Growth tracking</li>
+                            <li><i class="fas fa-check"></i> Custom reports</li>
+                        </ul>
                     </div>
-                    <div class="stat-card">
-                        <h3>🚀 Growth</h3>
-                        <p>AI-powered recommendations for rapid growth</p>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Audience Insights</h3>
+                        <p>Deep dive into your audience demographics, behavior patterns, and engagement preferences</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Demographic analysis</li>
+                            <li><i class="fas fa-check"></i> Engagement patterns</li>
+                            <li><i class="fas fa-check"></i> Content preferences</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-trending-up"></i>
+                        </div>
+                        <h3>Growth Predictions</h3>
+                        <p>AI-powered predictions and recommendations to optimize your content strategy</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Trend forecasting</li>
+                            <li><i class="fas fa-check"></i> Content recommendations</li>
+                            <li><i class="fas fa-check"></i> Growth strategies</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-keyword"></i>
+                        </div>
+                        <h3>Keyword Research</h3>
+                        <p>Discover trending topics and optimize your content for maximum visibility</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Trending keywords</li>
+                            <li><i class="fas fa-check"></i> SEO optimization</li>
+                            <li><i class="fas fa-check"></i> Competition analysis</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h3>Real-time Alerts</h3>
+                        <p>Get instant notifications about important changes in your channel performance</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Performance alerts</li>
+                            <li><i class="fas fa-check"></i> Comment notifications</li>
+                            <li><i class="fas fa-check"></i> Trend alerts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comment Analyzer Section -->
+        <section id="analyzer" class="analyzer">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">YouTube Comment Analyzer</h2>
+                    <p class="section-subtitle">Analyze any YouTube video's comments with advanced sentiment analysis</p>
+                </div>
+                
+                <div class="analyzer-container">
+                    <div class="analyzer-form">
+                        <div class="form-group">
+                            <label for="videoUrl">YouTube Video URL</label>
+                            <div class="input-group">
+                                <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=VIDEO_ID" required>
+                                <button class="btn btn-primary" onclick="analyzeVideo()">
+                                    <i class="fas fa-search"></i> Analyze
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="analyzer-options">
+                            <div class="option-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="sentimentAnalysis" checked>
+                                    <span class="checkmark"></span>
+                                    Sentiment Analysis
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="keywordExtraction" checked>
+                                    <span class="checkmark"></span>
+                                    Keyword Extraction
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="userAnalysis" checked>
+                                    <span class="checkmark"></span>
+                                    User Analysis
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analyzer-results" id="analyzerResults" style="display: none;">
+                        <div class="results-header">
+                            <h3>Analysis Results</h3>
+                            <div class="results-actions">
+                                <button class="btn btn-outline" onclick="exportResults()">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="results-content">
+                            <div class="sentiment-overview">
+                                <h4>Sentiment Overview</h4>
+                                <div class="sentiment-stats">
+                                    <div class="sentiment-stat positive">
+                                        <i class="fas fa-smile"></i>
+                                        <div class="stat-info">
+                                            <span class="stat-value">65%</span>
+                                            <span class="stat-label">Positive</span>
+                                        </div>
+                                    </div>
+                                    <div class="sentiment-stat neutral">
+                                        <i class="fas fa-meh"></i>
+                                        <div class="stat-info">
+                                            <span class="stat-value">25%</span>
+                                            <span class="stat-label">Neutral</span>
+                                        </div>
+                                    </div>
+                                    <div class="sentiment-stat negative">
+                                        <i class="fas fa-frown"></i>
+                                        <div class="stat-info">
+                                            <span class="stat-value">10%</span>
+                                            <span class="stat-label">Negative</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="top-comments">
+                                <h4>Top Comments</h4>
+                                <div class="comments-list">
+                                    <div class="comment-item">
+                                        <div class="comment-header">
+                                            <img src="https://picsum.photos/seed/user1/32/32.jpg" alt="User">
+                                            <div class="comment-info">
+                                                <span class="username">@techenthusiast</span>
+                                                <span class="sentiment-badge positive">Positive</span>
+                                            </div>
+                                        </div>
+                                        <p class="comment-text">This is exactly what I was looking for! Amazing content and very helpful explanation.</p>
+                                        <div class="comment-meta">
+                                            <span class="likes"><i class="fas fa-heart"></i> 245</span>
+                                            <span class="time">2 hours ago</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="comment-item">
+                                        <div class="comment-header">
+                                            <img src="https://picsum.photos/seed/user2/32/32.jpg" alt="User">
+                                            <div class="comment-info">
+                                                <span class="username">@contentcreator</span>
+                                                <span class="sentiment-badge neutral">Neutral</span>
+                                            </div>
+                                        </div>
+                                        <p class="comment-text">Good information, but I think you could add more examples to make it clearer.</p>
+                                        <div class="comment-meta">
+                                            <span class="likes"><i class="fas fa-heart"></i> 89</span>
+                                            <span class="time">5 hours ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="keywords-cloud">
+                                <h4>Top Keywords</h4>
+                                <div class="keywords">
+                                    <span class="keyword" style="font-size: 24px;">helpful</span>
+                                    <span class="keyword" style="font-size: 20px;">amazing</span>
+                                    <span class="keyword" style="font-size: 18px;">content</span>
+                                    <span class="keyword" style="font-size: 22px;">tutorial</span>
+                                    <span class="keyword" style="font-size: 16px;">learn</span>
+                                    <span class="keyword" style="font-size: 20px;">information</span>
+                                    <span class="keyword" style="font-size: 18px;">examples</span>
+                                    <span class="keyword" style="font-size: 16px;">clear</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Preview -->
+        <section id="dashboard" class="dashboard-preview">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Analytics Dashboard</h2>
+                    <p class="section-subtitle">Comprehensive insights into your YouTube channel performance</p>
+                </div>
+                
+                <div class="dashboard-mockup">
+                    <div class="dashboard-header">
+                        <div class="dashboard-title">
+                            <h3>Channel Analytics</h3>
+                            <span class="date-range">Last 30 days</span>
+                        </div>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="metric-info">
+                                <h4>Total Views</h4>
+                                <span class="metric-value">1.2M</span>
+                                <span class="metric-change positive">+23%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="metric-info">
+                                <h4>Subscribers</h4>
+                                <span class="metric-value">45.2K</span>
+                                <span class="metric-change positive">+15%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="metric-info">
+                                <h4>Engagement Rate</h4>
+                                <span class="metric-value">8.5%</span>
+                                <span class="metric-change positive">+2.1%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="metric-info">
+                                <h4>Watch Time</h4>
+                                <span class="metric-value">125K</span>
+                                <span class="metric-change negative">-5%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h4>Views Over Time</h4>
+                        <div class="chart-mockup">
+                            <div class="chart-bar" style="height: 60%"></div>
+                            <div class="chart-bar" style="height: 80%"></div>
+                            <div class="chart-bar" style="height: 45%"></div>
+                            <div class="chart-bar" style="height: 90%"></div>
+                            <div class="chart-bar" style="height: 70%"></div>
+                            <div class="chart-bar" style="height: 85%"></div>
+                            <div class="chart-bar" style="height: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Choose Your Plan</h2>
+                    <p class="section-subtitle">Flexible pricing for creators of all sizes</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Starter</h3>
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">9</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> 1,000 comments/month</li>
+                            <li><i class="fas fa-check"></i> Basic sentiment analysis</li>
+                            <li><i class="fas fa-check"></i> 1 channel analysis</li>
+                            <li><i class="fas fa-check"></i> Email support</li>
+                        </ul>
+                        <button class="btn btn-outline">Get Started</button>
+                    </div>
+                    
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-header">
+                            <h3>Professional</h3>
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">29</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> 10,000 comments/month</li>
+                            <li><i class="fas fa-check"></i> Advanced sentiment analysis</li>
+                            <li><i class="fas fa-check"></i> 5 channels analysis</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                            <li><i class="fas fa-check"></i> Custom reports</li>
+                        </ul>
+                        <button class="btn btn-primary">Get Started</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Enterprise</h3>
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">99</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Unlimited comments</li>
+                            <li><i class="fas fa-check"></i> AI-powered insights</li>
+                            <li><i class="fas fa-check"></i> Unlimited channels</li>
+                            <li><i class="fas fa-check"></i> 24/7 support</li>
+                            <li><i class="fas fa-check"></i> API access</li>
+                        </ul>
+                        <button class="btn btn-outline">Contact Sales</button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 TubeGrow. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TubeGrow</h3>
+                    <p>Advanced YouTube analytics and growth platform powered by AI</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#analyzer">Comment Analyzer</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TubeGrow. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
         </div>
     </footer>
 
-    <script>
-        console.log('TubeGrow homepage loaded');
-        
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A') {
-                const href = e.target.getAttribute('href');
-                if (href && href !== '#' && href !== window.location.href) {
-                    console.log('Navigating to:', href);
-                    window.location.href = href;
-                }
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
