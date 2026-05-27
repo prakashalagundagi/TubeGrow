@@ -1,239 +1,893 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TubeGrow - AI YouTube Analytics Platform</title>
-    <meta name="description" content="Transform your YouTube channel with AI-powered analytics, comment analysis, sentiment tracking, and growth insights">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>TubeGrow - AI YouTube Analytics</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+<style>
+
+/* ================================= */
+/* GLOBAL */
+/* ================================= */
+
+:root{
+  --bg:#050816;
+  --bg2:#0f172a;
+  --primary:#ff0055;
+  --secondary:#7c3aed;
+  --blue:#2563eb;
+  --text:#ffffff;
+  --glass:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.12);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(-45deg,#050816,#0f172a,#14061f,#050816);
+  background-size:400% 400%;
+  animation:gradientMove 15s ease infinite;
+  color:white;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Mouse Glow */
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+  radial-gradient(
+      circle at var(--x) var(--y),
+      rgba(255,0,100,0.15),
+      transparent 20%
+  );
+  pointer-events:none;
+  z-index:1;
+}
+
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.container{
+  width:90%;
+  max-width:1300px;
+  margin:auto;
+}
+
+.gradient-text{
+  background:linear-gradient(
+      to right,
+      #ff0055,
+      #7c3aed,
+      #2563eb
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ================================= */
+/* NAVBAR */
+/* ================================= */
+
+.header{
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:999;
+  backdrop-filter:blur(20px);
+  background:rgba(0,0,0,0.2);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.navbar{
+  padding:1rem 0;
+}
+
+.nav-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:2rem;
+  font-weight:900;
+  color:var(--primary);
+}
+
+.nav-menu{
+  display:flex;
+  list-style:none;
+  gap:2rem;
+}
+
+.nav-menu a{
+  text-decoration:none;
+  color:white;
+  transition:0.3s;
+}
+
+.nav-menu a:hover{
+  color:var(--primary);
+}
+
+/* ================================= */
+/* HERO */
+/* ================================= */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:120px;
+}
+
+.hero-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:center;
+}
+
+.hero-title{
+  font-size:4rem;
+  line-height:1.1;
+  font-weight:900;
+  margin-bottom:1rem;
+}
+
+.hero-subtitle{
+  color:#cbd5e1;
+  line-height:1.7;
+  margin-bottom:2rem;
+  font-size:1.1rem;
+}
+
+.btn{
+  padding:15px 30px;
+  border:none;
+  border-radius:16px;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:700;
+  transition:0.4s;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn-primary{
+  background:linear-gradient(
+      135deg,
+      #ff0055,
+      #7c3aed
+  );
+
+  color:white;
+
+  box-shadow:0 0 30px rgba(255,0,85,0.3);
+}
+
+.btn-primary:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 50px rgba(255,0,85,0.6);
+}
+
+.btn-glass{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.08);
+  color:white;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+/* ================================= */
+/* STATS */
+/* ================================= */
+
+.hero-stats{
+  display:flex;
+  gap:2rem;
+  margin-top:3rem;
+}
+
+.stat-number{
+  font-size:2rem;
+  font-weight:900;
+  color:var(--primary);
+}
+
+.stat-label{
+  color:#94a3b8;
+}
+
+/* ================================= */
+/* DASHBOARD */
+/* ================================= */
+
+.floating-dashboard{
+  animation:float 6s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{
+      transform:translateY(0px);
+  }
+
+  50%{
+      transform:translateY(-20px);
+  }
+}
+
+.dash-card{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
+  border-radius:24px;
+  padding:2rem;
+  margin-bottom:1rem;
+  transition:0.4s;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+
+.dash-card:hover{
+  transform:translateY(-10px) scale(1.02);
+}
+
+.sentiment-row{
+  margin-top:1rem;
+}
+
+.progress{
+  width:100%;
+  height:10px;
+  background:#222;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress div{
+  height:100%;
+  border-radius:20px;
+}
+
+.positive{
+  width:75%;
+  background:#22c55e;
+}
+
+.neutral{
+  width:15%;
+  background:#facc15;
+}
+
+.negative{
+  width:10%;
+  background:#ef4444;
+}
+
+/* ================================= */
+/* FEATURES */
+/* ================================= */
+
+.features{
+  padding:120px 0;
+}
+
+.section-title{
+  text-align:center;
+  font-size:3rem;
+  margin-bottom:1rem;
+}
+
+.section-subtitle{
+  text-align:center;
+  color:#94a3b8;
+  margin-bottom:4rem;
+}
+
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+}
+
+.feature-card{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:2rem;
+  backdrop-filter:blur(20px);
+  transition:0.4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.feature-card:hover{
+  transform:translateY(-12px) scale(1.02);
+}
+
+.feature-icon{
+  width:70px;
+  height:70px;
+  border-radius:20px;
+  background:linear-gradient(
+      135deg,
+      #ff0055,
+      #7c3aed
+  );
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.7rem;
+  margin-bottom:1rem;
+}
+
+.feature-card h3{
+  margin-bottom:1rem;
+}
+
+.feature-card p{
+  color:#cbd5e1;
+  line-height:1.7;
+}
+
+/* ================================= */
+/* ANALYZER */
+/* ================================= */
+
+.analyzer{
+  padding:120px 0;
+}
+
+.analyzer-box{
+  max-width:700px;
+  margin:auto;
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+.analyzer-input{
+  flex:1;
+  padding:18px;
+  border:none;
+  outline:none;
+  border-radius:16px;
+  background:rgba(255,255,255,0.08);
+  color:white;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+#result{
+  margin-top:2rem;
+  text-align:center;
+}
+
+.analysis-card{
+  background:rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:2rem;
+  backdrop-filter:blur(20px);
+}
+
+/* ================================= */
+/* CTA */
+/* ================================= */
+
+.cta{
+  padding:120px 0;
+}
+
+.cta-box{
+  background:linear-gradient(
+      135deg,
+      rgba(255,0,85,0.2),
+      rgba(124,58,237,0.2)
+  );
+
+  padding:80px 40px;
+  border-radius:30px;
+  text-align:center;
+  backdrop-filter:blur(20px);
+}
+
+.cta-box h2{
+  font-size:3rem;
+  margin-bottom:1rem;
+}
+
+.cta-box p{
+  color:#cbd5e1;
+  margin-bottom:2rem;
+}
+
+/* ================================= */
+/* FOOTER */
+/* ================================= */
+
+footer{
+  padding:40px 0;
+  text-align:center;
+  color:#94a3b8;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+
+/* ================================= */
+/* RESPONSIVE */
+/* ================================= */
+
+@media(max-width:900px){
+
+  .hero-content{
+      grid-template-columns:1fr;
+      text-align:center;
+  }
+
+  .hero-title{
+      font-size:3rem;
+  }
+
+  .hero-buttons{
+      justify-content:center;
+  }
+
+  .hero-stats{
+      justify-content:center;
+      flex-wrap:wrap;
+  }
+
+  .nav-menu{
+      display:none;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .hero-title{
+      font-size:2.3rem;
+  }
+
+  .section-title{
+      font-size:2rem;
+  }
+
+  .cta-box h2{
+      font-size:2rem;
+  }
+
+}
+
+</style>
 </head>
+
 <body>
-    <!-- Particle Canvas -->
-    <canvas id="particles"></canvas>
 
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <div class="loader-inner">
-            <div class="loader-logo"><i class="fab fa-youtube"></i> TubeGrow</div>
-            <div class="loader-bar"><div class="loader-fill"></div></div>
-        </div>
-    </div>
+<!-- NAVBAR -->
 
-    <!-- Cursor -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursorFollower"></div>
+<header class="header">
 
-    <!-- Navigation -->
-    <header class="header" id="header">
-        <nav class="navbar">
-            <div class="container">
-                <div class="nav-container">
-                    <div class="logo">
-                        <span class="logo-icon"><i class="fab fa-youtube"></i></span>
-                        <span class="logo-text">TubeGrow</span>
-                    </div>
-                    <ul class="nav-menu" id="navMenu">
-                        <li><a href="#home" class="nav-link active">Home</a></li>
-                        <li><a href="#features" class="nav-link">Features</a></li>
-                        <li><a href="#analyzer" class="nav-link">Analyzer</a></li>
-                        <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
-                        <li><a href="#pricing" class="nav-link">Pricing</a></li>
-                        <li><a href="#analyzer" class="btn btn-primary nav-cta">Get Started Free</a></li>
-                    </ul>
-                    <div class="hamburger" id="hamburger">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+<nav class="navbar">
 
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-bg">
-                <div class="orb orb1"></div>
-                <div class="orb orb2"></div>
-                <div class="orb orb3"></div>
-                <div class="grid-lines"></div>
-            </div>
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-text" data-aos="fade-up">
-                        <div class="hero-badge">
-                            <span class="badge-dot"></span>
-                            <span>AI-Powered Analytics Platform</span>
-                        </div>
-                        <h1 class="hero-title">
-                            <span class="line1">Transform Your</span>
-                            <span class="line2 gradient-text">YouTube Channel</span>
-                            <span class="line3">with AI Intelligence</span>
-                        </h1>
-                        <p class="hero-subtitle">
-                            Advanced comment sentiment analysis, growth predictions, and real-time insights — all powered by cutting-edge artificial intelligence.
-                        </p>
-                        <div class="hero-buttons">
-                            <a href="#analyzer" class="btn btn-primary btn-large glow-btn">
-                                <i class="fas fa-chart-line"></i> Analyze Now
-                                <span class="btn-shine"></span>
-                            </a>
-                            <a href="#features" class="btn btn-glass btn-large">
-                                <i class="fas fa-play-circle"></i> See Features
-                            </a>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat">
-                                <span class="stat-number" data-count="50000">0</span><span class="stat-suffix">+</span>
-                                <span class="stat-label">Channels Analyzed</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="stat">
-                                <span class="stat-number" data-count="1000000">0</span><span class="stat-suffix">+</span>
-                                <span class="stat-label">Comments Processed</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="stat">
-                                <span class="stat-number" data-count="95">0</span><span class="stat-suffix">%</span>
-                                <span class="stat-label">Accuracy Rate</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero-visual" data-aos="fade-left">
-                        <div class="floating-dashboard">
-                            <div class="dash-card main-card">
-                                <div class="dash-card-header">
-                                    <div class="channel-avatar"><i class="fab fa-youtube"></i></div>
-                                    <div>
-                                        <div class="channel-name">Growth Analytics</div>
-                                        <div class="channel-badge">Live</div>
-                                    </div>
-                                    <div class="card-menu"><i class="fas fa-ellipsis-h"></i></div>
-                                </div>
-                                <div class="sentiment-bars">
-                                    <div class="s-bar-row">
-                                        <span>Positive</span>
-                                        <div class="s-bar-track"><div class="s-bar positive" style="--w:65%"></div></div>
-                                        <span>65%</span>
-                                    </div>
-                                    <div class="s-bar-row">
-                                        <span>Neutral</span>
-                                        <div class="s-bar-track"><div class="s-bar neutral" style="--w:25%"></div></div>
-                                        <span>25%</span>
-                                    </div>
-                                    <div class="s-bar-row">
-                                        <span>Negative</span>
-                                        <div class="s-bar-track"><div class="s-bar negative" style="--w:10%"></div></div>
-                                        <span>10%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dash-card mini-card card-views">
-                                <i class="fas fa-eye"></i>
-                                <div class="mini-val">1.2M</div>
-                                <div class="mini-label">Views</div>
-                                <div class="mini-change up"><i class="fas fa-arrow-up"></i> 23%</div>
-                            </div>
-                            <div class="dash-card mini-card card-subs">
-                                <i class="fas fa-users"></i>
-                                <div class="mini-val">45.2K</div>
-                                <div class="mini-label">Subscribers</div>
-                                <div class="mini-change up"><i class="fas fa-arrow-up"></i> 15%</div>
-                            </div>
-                            <div class="dash-card mini-card card-engage">
-                                <i class="fas fa-heart"></i>
-                                <div class="mini-val">8.5%</div>
-                                <div class="mini-label">Engagement</div>
-                                <div class="mini-change up"><i class="fas fa-arrow-up"></i> 2.1%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-                <span>Scroll to explore</span>
-            </div>
-        </section>
+<div class="container nav-container">
 
-        <!-- Features Section -->
-        <section id="features" class="features">
-            <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <div class="section-tag">Features</div>
-                    <h2 class="section-title">Everything You Need to <span class="gradient-text">Dominate YouTube</span></h2>
-                    <p class="section-subtitle">Powerful AI tools designed for serious content creators</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
-                        <div class="feature-icon-wrap"><i class="fas fa-comments"></i></div>
-                        <h3>Comment Sentiment Analysis</h3>
-                        <p>Analyze thousands of comments instantly with AI-powered sentiment detection to understand audience emotions in real time.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Real-time sentiment tracking</li>
-                            <li><i class="fas fa-check-circle"></i> Emotion detection</li>
-                            <li><i class="fas fa-check-circle"></i> Trend analysis</li>
-                        </ul>
-                        <div class="feature-glow"></div>
-                    </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="feature-icon-wrap"><i class="fas fa-chart-bar"></i></div>
-                        <h3>Advanced Analytics Dashboard</h3>
-                        <p>Comprehensive analytics with interactive charts and real-time data visualization for every metric that matters.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Performance metrics</li>
-                            <li><i class="fas fa-check-circle"></i> Growth tracking</li>
-                            <li><i class="fas fa-check-circle"></i> Custom reports</li>
-                        </ul>
-                        <div class="feature-glow"></div>
-                    </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="feature-icon-wrap"><i class="fas fa-users"></i></div>
-                        <h3>Audience Insights</h3>
-                        <p>Deep dive into your audience demographics, behavior patterns, and engagement preferences to create better content.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Demographic analysis</li>
-                            <li><i class="fas fa-check-circle"></i> Engagement patterns</li>
-                            <li><i class="fas fa-check-circle"></i> Content preferences</li>
-                        </ul>
-                        <div class="feature-glow"></div>
-                    </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="feature-icon-wrap"><i class="fas fa-brain"></i></div>
-                        <h3>AI Growth Predictions</h3>
-                        <p>AI-powered predictions and recommendations to optimize your content strategy and maximize channel growth.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Trend forecasting</li>
-                            <li><i class="fas fa-check-circle"></i> Content recommendations</li>
-                            <li><i class="fas fa-check-circle"></i> Growth strategies</li>
-                        </ul>
-                        <div class="feature-glow"></div>
-                    </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="feature-icon-wrap"><i class="fas fa-search"></i></div>
-                        <h3>Keyword Research</h3>
-                        <p>Discover trending topics and optimize your content for maximum visibility and search ranking on YouTube.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Trending keywords</li>
-                            <li><i class="fas fa-check-circle"></i> SEO optimization</li>
-                            <li><i class="fas fa-check-circle"></i> Competition analysis</li>
-                        </ul>
-                        <div class="feature-glow"></div>
-                    </div>
-                    <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
-                        <div class="feature-icon-wrap"><i class="fas fa-bell"></i></div>
-                        <h3>Real-time Alerts</h3>
-                        <p>Get instant notifications about important changes in your channel performance and audience engagement.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Performance alerts</li>
-                            <li><i class="fas fa-check-circle"></i> Comment notifications</li>
-                            <li><i class="fas fa-check-circle"></i> Trend alerts</li>
-                        </ul>
-                        <div class="feature-glow"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<div class="logo">
+<i class="fab fa-youtube"></i>
+TubeGrow
+</div>
+
+<ul class="nav-menu">
+
+<li><a href="#">Home</a></li>
+<li><a href="#">Features</a></li>
+<li><a href="#">Analytics</a></li>
+<li><a href="#">Pricing</a></li>
+
+</ul>
+
+</div>
+
+</nav>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="container hero-content">
+
+<div data-aos="fade-right">
+
+<h1 class="hero-title">
+
+Transform Your
+<span class="gradient-text">
+YouTube Channel
+</span>
+With AI
+
+</h1>
+
+<p class="hero-subtitle">
+
+AI-powered analytics platform with sentiment analysis,
+growth tracking, audience intelligence, and real-time
+YouTube insights.
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="#" class="btn btn-primary">
+<i class="fas fa-chart-line"></i>
+Analyze Now
+</a>
+
+<a href="#" class="btn btn-glass">
+<i class="fas fa-play-circle"></i>
+See Demo
+</a>
+
+</div>
+
+<div class="hero-stats">
+
+<div>
+<div class="stat-number" data-count="50000">0</div>
+<div class="stat-label">Channels</div>
+</div>
+
+<div>
+<div class="stat-number" data-count="1000000">0</div>
+<div class="stat-label">Comments</div>
+</div>
+
+<div>
+<div class="stat-number" data-count="95">0</div>
+<div class="stat-label">Accuracy</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div class="floating-dashboard" data-aos="fade-left">
+
+<div class="dash-card">
+
+<h2>AI Sentiment Analysis</h2>
+
+<div class="sentiment-row">
+Positive
+<div class="progress">
+<div class="positive"></div>
+</div>
+</div>
+
+<div class="sentiment-row">
+Neutral
+<div class="progress">
+<div class="neutral"></div>
+</div>
+</div>
+
+<div class="sentiment-row">
+Negative
+<div class="progress">
+<div class="negative"></div>
+</div>
+</div>
+
+</div>
+
+<div class="dash-card">
+
+<h2>Growth Metrics 🚀</h2>
+
+<p>Views: +1.2M</p>
+<p>Subscribers: +45K</p>
+<p>Engagement: +8.5%</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features">
+
+<div class="container">
+
+<h2 class="section-title">
+Powerful AI Features
+</h2>
+
+<p class="section-subtitle">
+Everything you need to dominate YouTube
+</p>
+
+<div class="features-grid">
+
+<div class="feature-card" data-aos="fade-up">
+
+<div class="feature-icon">
+<i class="fas fa-comments"></i>
+</div>
+
+<h3>Comment Analysis</h3>
+
+<p>
+Analyze thousands of comments instantly using AI.
+</p>
+
+</div>
+
+<div class="feature-card" data-aos="fade-up">
+
+<div class="feature-icon">
+<i class="fas fa-chart-bar"></i>
+</div>
+
+<h3>Advanced Analytics</h3>
+
+<p>
+Track channel growth and engagement metrics live.
+</p>
+
+</div>
+
+<div class="feature-card" data-aos="fade-up">
+
+<div class="feature-icon">
+<i class="fas fa-brain"></i>
+</div>
+
+<h3>AI Predictions</h3>
+
+<p>
+Get future growth predictions powered by AI.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ANALYZER -->
+
+<section class="analyzer">
+
+<div class="container">
+
+<h2 class="section-title">
+AI YouTube Analyzer
+</h2>
+
+<p class="section-subtitle">
+Paste any YouTube URL
+</p>
+
+<div class="analyzer-box">
+
+<input
+type="text"
+class="analyzer-input"
+placeholder="Paste YouTube URL..."
+>
+
+<button class="btn btn-primary" id="analyzeBtn">
+
+Analyze
+
+</button>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+<div class="container">
+
+<div class="cta-box">
+
+<h2>
+Ready To Grow Your Channel?
+</h2>
+
+<p>
+Join thousands of creators using TubeGrow AI.
+</p>
+
+<a href="#" class="btn btn-primary">
+
+Start Free Trial
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container">
+
+© 2026 TubeGrow AI Platform
+
+</div>
+
+</footer>
+
+<script>
+
+/* Mouse Glow */
+
+document.addEventListener("mousemove",(e)=>{
+
+document.documentElement.style.setProperty(
+"--x",
+e.clientX+"px"
+);
+
+document.documentElement.style.setProperty(
+"--y",
+e.clientY+"px"
+);
+
+});
+
+/* Counter */
+
+const counters=document.querySelectorAll(".stat-number");
+
+counters.forEach(counter=>{
+
+const update=()=>{
+
+const target=+counter.getAttribute("data-count");
+
+const count=+counter.innerText;
+
+const speed=target/100;
+
+if(count<target){
+
+counter.innerText=Math.ceil(count+speed);
+
+setTimeout(update,30);
+
+}else{
+
+counter.innerText=target;
+
+}
+
+}
+
+update();
+
+});
+
+/* AOS */
+
+AOS.init({
+duration:1000,
+once:true
+});
+
+/* Tilt */
+
+VanillaTilt.init(
+document.querySelectorAll(".feature-card"),
+{
+max:15,
+speed:400,
+glare:true,
+"max-glare":0.3
+}
+);
+
+/* Analyzer */
+
+document
+.getElementById("analyzeBtn")
+.addEventListener("click",()=>{
+
+const result=document.getElementById("result");
+
+result.innerHTML=`
+
+<div class="analysis-card">
+
+<h2>Analyzing...</h2>
+
+<p>AI is processing comments...</p>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+
+result.innerHTML=`
+
+<div class="analysis-card">
+
+<h2>Analysis Complete 🚀</h2>
+
+<p>Positive Sentiment: <strong>78%</strong></p>
+
+<p>Audience Engagement: <strong>High</strong></p>
+
+<p>Top Keywords:</p>
+
+<p>Amazing • Helpful • Awesome</p>
+
+</div>
+
+`;
+
+},3000);
+
+});
+
+</script>
+
+</body>
+</html>
