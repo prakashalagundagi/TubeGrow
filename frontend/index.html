@@ -1013,41 +1013,70 @@ function getVideoId(url) {
   return match ? match[1] : null;
 }
 
-function buildAnalysisMarkup() {
-  const input = document.querySelector(".analyzer-input");
-  const url = input && input.value.trim() ? input.value : "https://www.youtube.com/watch?v=YQHsXMglC9A";
-  const videoId = getVideoId(url) || "YQHsXMglC9A";
+function normalizeText(text = "") {
+  return String(text)
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function detectSentiment(text) {
+  const clean = normalizeText(text).toLowerCase();
+  const positiveWords = ["good", "great", "love", "amazing", "helpful", "awesome", "excellent", "nice", "best", "cool"];
+  const negativeWords = ["bad", "hate", "slow", "boring", "awful", "confusing", "weak", "repetitive", "poor", "frustrating"];
+
+  const positiveScore = positiveWords.filter((word) => clean.includes(word)).length;
+  const negativeScore = negativeWords.filter((word) => clean.includes(word)).length;
+
+  if (positiveScore > negativeScore) return "Positive";
+  if (negativeScore > positiveScore) return "Negative";
+  return "Neutral";
+}
+
+function buildAnalysisMarkupFromData(videoId, comments) {
+  const allComments = comments
+    .map((comment) => ({
+      name: comment.authorName || "Anonymous",
+      likes: comment.likes || 0,
+      text: normalizeText(comment.text || comment.content || ""),
+      sentiment: detectSentiment(comment.text || comment.content || "")
+    }))
+    .filter((comment) => comment.text.length > 0);
+
+  const topComments = allComments
+    .slice()
+    .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+    .slice(0, 3);
+
+  const positiveCount = allComments.filter((comment) => comment.sentiment === "Positive").length;
+  const negativeCount = allComments.filter((comment) => comment.sentiment === "Negative").length;
+  const positivePercent = allComments.length ? Math.round((positiveCount / allComments.length) * 100) : 0;
+  const negativePercent = allComments.length ? Math.round((negativeCount / allComments.length) * 100) : 0;
+
+  const questionSeeds = ["how", "what", "when", "where", "why", "can", "does", "is", "are", "could"];
+  const audienceQuestions = allComments
+    .filter((comment) => {
+      const text = comment.text.toLowerCase();
+      return questionSeeds.some((seed) => text.includes(seed)) && comment.text.length < 180;
+    })
+    .slice(0, 4)
+    .map((comment) => ({
+      name: comment.name,
+      question: comment.text
+    }));
+
+  const duplicateMap = new Map();
+  allComments.forEach((comment) => {
+    const key = comment.text.toLowerCase();
+    if (!duplicateMap.has(key)) duplicateMap.set(key, { text: comment.text, count: 0 });
+    duplicateMap.get(key).count += 1;
+  });
+
+  const duplicates = Array.from(duplicateMap.values())
+    .filter((entry) => entry.count > 1)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 4);
+
   const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-  const topComments = [
-    { name: "Aarav K.", likes: 2431, text: "This video helped me understand the workflow clearly. Super practical and easy to follow." },
-    { name: "Meera S.", likes: 1820, text: "Loved the breakdown. The examples were real and the editing tips were a game changer." },
-    { name: "Nikhil P.", likes: 1395, text: "Very useful content. I saved this video and shared it with my team." }
-  ];
-
-  const audienceQuestions = [
-    { name: "Riya", question: "Can you show the exact steps to set this up for beginners?" },
-    { name: "David", question: "Does this work better for long videos or shorts?" },
-    { name: "Leah", question: "What are the best tools to improve retention and CTR?" }
-  ];
-
-  const duplicates = [
-    { text: "This is amazing!", count: 6 },
-    { text: "Loved this video!", count: 4 },
-    { text: "Thanks for sharing this", count: 3 }
-  ];
-
-  const positiveComments = [
-    "Very useful and detailed.",
-    "Loved the examples and the structure.",
-    "This made the process much clearer."
-  ];
-
-  const negativeComments = [
-    "The video is too fast in some sections.",
-    "Could use a little more explanation on the setup.",
-    "Some parts felt repetitive and could be shorter."
-  ];
 
   return `
     <div class="analysis-card">
@@ -1057,10 +1086,10 @@ function buildAnalysisMarkup() {
         </div>
         <div class="video-meta">
           <h2>Analysis Complete 🚀</h2>
-          <p><strong>Positive Sentiment:</strong> 78%</p>
-          <p><strong>Negative Sentiment:</strong> 22%</p>
-          <p><strong>Audience Engagement:</strong> High</p>
-          <p><strong>Top Keywords:</strong> Amazing • Helpful • Awesome</p>
+          <p><strong>Positive Sentiment:</strong> ${positivePercent}%</p>
+          <p><strong>Negative Sentiment:</strong> ${negativePercent}%</p>
+          <p><strong>Audience Engagement:</strong> ${allComments.length > 25 ? "High" : "Medium"}</p>
+          <p><strong>Top Keywords:</strong> ${allComments.slice(0, 5).map((item) => item.text.split(" ")[0]).join(" • ") || "Insights available"}</p>
         </div>
       </div>
 
@@ -1083,12 +1112,12 @@ function buildAnalysisMarkup() {
         <div class="analysis-panel">
           <h3>Audience Questions</h3>
           <div class="question-list">
-            ${audienceQuestions.map(item => `
+            ${audienceQuestions.length ? audienceQuestions.map(item => `
               <div class="question-item">
                 <strong>${item.name}</strong>
                 <small>${item.question}</small>
               </div>
-            `).join('')}
+            `).join('') : '<div class="question-item"><small>No clear questions found in the current comment set.</small></div>'}
           </div>
         </div>
 
@@ -1097,21 +1126,21 @@ function buildAnalysisMarkup() {
           <div class="small-list">
             <div class="sentiment-row">
               <span>Positive</span>
-              <div class="sentiment-bar"><div class="sentiment-fill positive" style="width: 78%"></div></div>
-              <strong>78%</strong>
+              <div class="sentiment-bar"><div class="sentiment-fill positive" style="width: ${positivePercent}%"></div></div>
+              <strong>${positivePercent}%</strong>
             </div>
             <div class="sentiment-row">
               <span>Negative</span>
-              <div class="sentiment-bar"><div class="sentiment-fill negative" style="width: 22%"></div></div>
-              <strong>22%</strong>
+              <div class="sentiment-bar"><div class="sentiment-fill negative" style="width: ${negativePercent}%"></div></div>
+              <strong>${negativePercent}%</strong>
             </div>
             <div class="badge-item">
               <strong>Positive Comments</strong>
-              <small>${positiveComments.join(' • ')}</small>
+              <small>${allComments.filter((comment) => comment.sentiment === "Positive").slice(0, 3).map((comment) => comment.text).join(" • ") || "No positive comments found"}</small>
             </div>
             <div class="badge-item">
               <strong>Negative Comments</strong>
-              <small>${negativeComments.join(' • ')}</small>
+              <small>${allComments.filter((comment) => comment.sentiment === "Negative").slice(0, 3).map((comment) => comment.text).join(" • ") || "No negative comments found"}</small>
             </div>
           </div>
         </div>
@@ -1119,10 +1148,28 @@ function buildAnalysisMarkup() {
         <div class="analysis-panel">
           <h3>Duplicate Messages</h3>
           <div class="duplicate-list">
-            ${duplicates.map(item => `
+            ${duplicates.length ? duplicates.map(item => `
               <div class="duplicate-item">
                 <strong>${item.text}</strong>
                 <small>Repeated ${item.count} times</small>
+              </div>
+            `).join('') : '<div class="duplicate-item"><small>No repeated comments found.</small></div>'}
+          </div>
+        </div>
+
+        <div class="analysis-panel" style="grid-column: 1 / -1;">
+          <h3>All Comments</h3>
+          <div class="comment-list">
+            ${allComments.map(comment => `
+              <div class="comment-item">
+                <div class="comment-meta">
+                  <strong>${comment.name}</strong>
+                  <span class="like-pill">👍 ${comment.likes}</span>
+                </div>
+                <small>${comment.text}</small>
+                <div style="margin-top: 0.5rem; color: ${comment.sentiment === 'Positive' ? '#34d399' : comment.sentiment === 'Negative' ? '#fca5a5' : '#facc15'}; font-weight: 700;">
+                  ${comment.sentiment}
+                </div>
               </div>
             `).join('')}
           </div>
@@ -1132,27 +1179,70 @@ function buildAnalysisMarkup() {
   `;
 }
 
-document
-.getElementById("analyzeBtn")
-.addEventListener("click",()=>{
+async function fetchYouTubeComments(videoUrl) {
+  const videoId = getVideoId(videoUrl);
+  if (!videoId) {
+    throw new Error("Please enter a valid YouTube video URL.");
+  }
 
-const result=document.getElementById("result");
+  const apiKey = window.YOUTUBE_API_KEY || "";
+  if (!apiKey) {
+    throw new Error("Add your Google YouTube Data API key to the page before running analysis. Example: window.YOUTUBE_API_KEY = 'YOUR_API_KEY';");
+  }
 
-result.innerHTML=`
+  const endpoint = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=${videoId}&maxResults=100&key=${apiKey}`;
+  const response = await fetch(endpoint);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`YouTube API request failed: ${response.status} ${errorText}`);
+  }
+
+  const data = await response.json();
+  const comments = (data.items || []).map((item) => {
+    const snippet = item.snippet && item.snippet.topLevelComment && item.snippet.topLevelComment.snippet ? item.snippet.topLevelComment.snippet : {};
+    return {
+      authorName: snippet.authorDisplayName || "Anonymous",
+      likes: snippet.likeCount || 0,
+      text: snippet.textOriginal || snippet.textDisplay || "",
+      content: snippet.textOriginal || snippet.textDisplay || ""
+    };
+  });
+
+  return { videoId, comments };
+}
+
+document.getElementById("analyzeBtn")
+.addEventListener("click", async () => {
+
+  const result=document.getElementById("result");
+  const input = document.querySelector(".analyzer-input");
+  const url = input && input.value.trim() ? input.value.trim() : "https://www.youtube.com/watch?v=YQHsXMglC9A";
+
+  result.innerHTML=`
 
 <div class="analysis-card">
 
 <h2>Analyzing...</h2>
 
-<p>AI is processing comments and audience feedback...</p>
+<p>AI is fetching comments from the source video and processing audience feedback...</p>
 
 </div>
 
 `;
 
-setTimeout(()=>{
-  result.innerHTML = buildAnalysisMarkup();
-},2000);
+  try {
+    const { videoId, comments } = await fetchYouTubeComments(url);
+    result.innerHTML = buildAnalysisMarkupFromData(videoId, comments);
+  } catch (error) {
+    result.innerHTML = `
+      <div class="analysis-card">
+        <h2>API Required</h2>
+        <p>${error.message}</p>
+        <p>Set <strong>window.YOUTUBE_API_KEY</strong> to your YouTube Data API key before running analysis.</p>
+      </div>
+    `;
+  }
 
 });
 
