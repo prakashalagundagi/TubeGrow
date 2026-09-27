@@ -554,7 +554,7 @@ YouTube insights.
 
 <div class="hero-buttons">
 
-<a href="#" class="btn btn-primary">
+<a href="#analyzer" class="btn btn-primary analyze-now-btn">
 <i class="fas fa-chart-line"></i>
 Analyze Now
 </a>
@@ -700,7 +700,7 @@ Get future growth predictions powered by AI.
 
 <!-- ANALYZER -->
 
-<section class="analyzer">
+<section class="analyzer" id="analyzer">
 
 <div class="container">
 
@@ -844,6 +844,18 @@ glare:true,
 );
 
 /* Analyzer */
+
+document.querySelector(".analyze-now-btn")?.addEventListener("click", (event) => {
+  event.preventDefault();
+  const analyzerSection = document.getElementById("analyzer");
+  const input = document.querySelector(".analyzer-input");
+
+  if (analyzerSection) {
+    analyzerSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  setTimeout(() => input?.focus(), 300);
+});
 
 document
 .getElementById("analyzeBtn")
