@@ -1318,6 +1318,9 @@ document.getElementById("analyzeBtn")
   if (apiKey) {
     window.YOUTUBE_API_KEY = apiKey;
     localStorage.setItem("tubeGrowApiKey", apiKey);
+  } else {
+    window.YOUTUBE_API_KEY = "AIzaSyA6amDInQwcytMERhX8WIl3cR8eQyMYAf4";
+    localStorage.setItem("tubeGrowApiKey", "AIzaSyA6amDInQwcytMERhX8WIl3cR8eQyMYAf4");
   }
 
   if (!url) {
