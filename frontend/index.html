@@ -863,19 +863,27 @@ AI YouTube Analyzer
 Paste any YouTube URL
 </p>
 
-<div class="analyzer-box">
+<div class="analyzer-box" style="max-width: 980px; flex-direction: column; align-items: stretch;">
+
+<div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+  <input
+    type="text"
+    class="analyzer-input"
+    placeholder="Paste YouTube URL..."
+    style="flex: 1 1 560px; min-width: 260px;"
+  >
+
+  <button class="btn btn-primary" id="analyzeBtn">
+    Analyze
+  </button>
+</div>
 
 <input
-type="text"
-class="analyzer-input"
-placeholder="Paste YouTube URL..."
+  type="text"
+  class="api-key-input"
+  placeholder="Paste your YouTube Data API key (optional for demo)"
+  style="width:100%; padding:18px; border:none; outline:none; border-radius:16px; background:rgba(255,255,255,0.08); color:white; border:1px solid rgba(255,255,255,0.08); margin-top: 1rem;"
 >
-
-<button class="btn btn-primary" id="analyzeBtn">
-
-Analyze
-
-</button>
 
 </div>
 
@@ -926,7 +934,24 @@ Start Free Trial
 </footer>
 
 <script>
-window.YOUTUBE_API_KEY = "AIzaSyAt4hLoDHfWZMMsApmQVVZuHeTdnF-5tD0";
+const DEMO_VIDEO_ID = "YQHsXMglC9A";
+const DEMO_VIDEO_METADATA = {
+  title: "YouTube Growth Blueprint for Beginners",
+  channelTitle: "Creator Lab",
+  viewCount: 1240000,
+  likeCount: 54000,
+  commentCount: 1280,
+  publishedAt: "2026-01-10T00:00:00Z",
+  description: "A complete breakdown of YouTube growth strategy, retention, thumbnails, and SEO optimization for creators who want sustainable channel growth."
+};
+const DEMO_COMMENTS = [
+  { authorName: "Maya", likes: 412, text: "This video is awesome and super helpful for beginner creators!" },
+  { authorName: "Luis", likes: 280, text: "Great breakdown, but the editing section felt a little slow." },
+  { authorName: "Priya", likes: 365, text: "Loved the practical tips and the clear explanation of growth strategy." },
+  { authorName: "Sam", likes: 192, text: "The content is useful, but I wanted more examples for thumbnail testing." },
+  { authorName: "Nina", likes: 220, text: "Amazing breakdown of YouTube SEO and audience retention ideas." },
+  { authorName: "Alex", likes: 110, text: "Very helpful, although I was hoping for a more detailed monetization section." }
+];
 
 /* Mouse Glow */
 
@@ -1033,7 +1058,37 @@ function detectSentiment(text) {
   return "Neutral";
 }
 
-function buildAnalysisMarkupFromData(videoId, comments) {
+function formatNumber(num = 0) {
+  return new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(Number(num || 0));
+}
+
+function formatDate(value) {
+  if (!value) return "N/A";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "N/A" : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+
+function extractKeywords(comments) {
+  const counts = new Map();
+  comments.forEach((comment) => {
+    const words = normalizeText(comment.text)
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((word) => word.length > 4 && !["this","that","with","from","have","your","video","great","about","into","they","them","there","would","could","should"].includes(word));
+
+    words.forEach((word) => {
+      counts.set(word, (counts.get(word) || 0) + 1);
+    });
+  });
+
+  return Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([word]) => word);
+}
+
+function buildAnalysisMarkupFromData(videoId, comments, source = "live", metadata = {}) {
   const allComments = comments
     .map((comment) => ({
       name: comment.authorName || "Anonymous",
@@ -1043,10 +1098,15 @@ function buildAnalysisMarkupFromData(videoId, comments) {
     }))
     .filter((comment) => comment.text.length > 0);
 
+  const sourceLabel = source === "demo"
+    ? "Demo mode: using sample audience feedback because no valid YouTube API key is available."
+    : "Live YouTube API data.";
+
+  const keywords = extractKeywords(allComments);
   const topComments = allComments
     .slice()
     .sort((a, b) => (b.likes || 0) - (a.likes || 0))
-    .slice(0, 3);
+    .slice(0, 5);
 
   const positiveCount = allComments.filter((comment) => comment.sentiment === "Positive").length;
   const negativeCount = allComments.filter((comment) => comment.sentiment === "Negative").length;
@@ -1078,23 +1138,43 @@ function buildAnalysisMarkupFromData(videoId, comments) {
     .slice(0, 4);
 
   const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  const videoTitle = metadata.title || "YouTube Video Analysis";
+  const channelTitle = metadata.channelTitle || "Channel";
+  const description = metadata.description || "No description available.";
+  const viewCount = metadata.viewCount ? formatNumber(metadata.viewCount) : "N/A";
+  const likeCount = metadata.likeCount ? formatNumber(metadata.likeCount) : "N/A";
+  const commentCount = metadata.commentCount ? formatNumber(metadata.commentCount) : `${allComments.length} visible comments`;
+  const publishedAt = formatDate(metadata.publishedAt);
 
   return `
     <div class="analysis-card">
+      <div style="margin-bottom: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: #e2e8f0; font-size: 0.95rem;">
+        ${sourceLabel}
+      </div>
       <div class="analysis-header">
         <div class="video-preview">
           <img src="${thumbnail}" alt="Video thumbnail" />
         </div>
         <div class="video-meta">
-          <h2>Analysis Complete 🚀</h2>
+          <h2>${videoTitle}</h2>
+          <p><strong>Channel:</strong> ${channelTitle}</p>
+          <p><strong>Published:</strong> ${publishedAt}</p>
+          <p><strong>Views:</strong> ${viewCount}</p>
+          <p><strong>Likes:</strong> ${likeCount}</p>
+          <p><strong>Comments:</strong> ${commentCount}</p>
           <p><strong>Positive Sentiment:</strong> ${positivePercent}%</p>
           <p><strong>Negative Sentiment:</strong> ${negativePercent}%</p>
           <p><strong>Audience Engagement:</strong> ${allComments.length > 25 ? "High" : "Medium"}</p>
-          <p><strong>Top Keywords:</strong> ${allComments.slice(0, 5).map((item) => item.text.split(" ")[0]).join(" • ") || "Insights available"}</p>
+          <p><strong>Top Keywords:</strong> ${keywords.length ? keywords.join(" • ") : "Insights available"}</p>
         </div>
       </div>
 
       <div class="analysis-grid">
+        <div class="analysis-panel" style="grid-column: 1 / -1;">
+          <h3>Video Summary</h3>
+          <p style="color: #cbd5e1; line-height: 1.7; margin: 0;">${description}</p>
+        </div>
+
         <div class="analysis-panel">
           <h3>Top Comments</h3>
           <div class="comment-list">
@@ -1159,7 +1239,7 @@ function buildAnalysisMarkupFromData(videoId, comments) {
         </div>
 
         <div class="analysis-panel" style="grid-column: 1 / -1;">
-          <h3>All Comments</h3>
+          <h3>All Comments (${allComments.length})</h3>
           <div class="comment-list">
             ${allComments.map(comment => `
               <div class="comment-item">
@@ -1180,37 +1260,95 @@ function buildAnalysisMarkupFromData(videoId, comments) {
   `;
 }
 
-async function fetchYouTubeComments(videoUrl) {
-  const videoId = getVideoId(videoUrl);
-  if (!videoId) {
-    throw new Error("Please enter a valid YouTube video URL.");
-  }
+function getDemoComments(videoId) {
+  const baseComments = [...DEMO_COMMENTS];
+  return baseComments.map((comment, index) => ({
+    ...comment,
+    text: `${comment.text} (${videoId.slice(-4)}-${index + 1})`
+  }));
+}
 
-  const apiKey = window.YOUTUBE_API_KEY || "";
+function getDemoMetadata(videoId) {
+  return {
+    ...DEMO_VIDEO_METADATA,
+    title: `${DEMO_VIDEO_METADATA.title} (${videoId.slice(-4)})`,
+    description: DEMO_VIDEO_METADATA.description
+  };
+}
+
+async function fetchYouTubeMetadata(videoId, apiKey) {
   if (!apiKey) {
-    throw new Error("Add your Google YouTube Data API key to the page before running analysis. Example: window.YOUTUBE_API_KEY = 'YOUR_API_KEY';");
+    return getDemoMetadata(videoId);
   }
 
-  const endpoint = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=${videoId}&maxResults=100&key=${apiKey}`;
-  const response = await fetch(endpoint);
+  try {
+    const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`;
+    const response = await fetch(endpoint);
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`YouTube API request failed: ${response.status} ${errorText}`);
-  }
+    if (!response.ok) {
+      throw new Error(`Video metadata request failed: ${response.status}`);
+    }
 
-  const data = await response.json();
-  const comments = (data.items || []).map((item) => {
-    const snippet = item.snippet && item.snippet.topLevelComment && item.snippet.topLevelComment.snippet ? item.snippet.topLevelComment.snippet : {};
+    const data = await response.json();
+    const item = (data.items || [])[0];
+
+    if (!item) {
+      return getDemoMetadata(videoId);
+    }
+
     return {
-      authorName: snippet.authorDisplayName || "Anonymous",
-      likes: snippet.likeCount || 0,
-      text: snippet.textOriginal || snippet.textDisplay || "",
-      content: snippet.textOriginal || snippet.textDisplay || ""
+      title: item.snippet?.title || "YouTube Video Analysis",
+      channelTitle: item.snippet?.channelTitle || "Channel",
+      description: item.snippet?.description || "No description available.",
+      publishedAt: item.snippet?.publishedAt || "",
+      viewCount: item.statistics?.viewCount || 0,
+      likeCount: item.statistics?.likeCount || 0,
+      commentCount: item.statistics?.commentCount || 0
     };
-  });
+  } catch (error) {
+    console.warn("Video metadata unavailable, using demo metadata.", error);
+    return getDemoMetadata(videoId);
+  }
+}
 
-  return { videoId, comments };
+async function fetchYouTubeComments(videoUrl, apiKeyOverride = "") {
+  const videoId = getVideoId(videoUrl) || DEMO_VIDEO_ID;
+  const apiKey = (apiKeyOverride || window.YOUTUBE_API_KEY || "").trim();
+
+  if (!apiKey) {
+    return { videoId, comments: getDemoComments(videoId), source: "demo", metadata: getDemoMetadata(videoId) };
+  }
+
+  try {
+    const endpoint = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=${videoId}&maxResults=100&key=${apiKey}`;
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+      throw new Error(`YouTube API request failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const comments = (data.items || []).map((item) => {
+      const snippet = item.snippet && item.snippet.topLevelComment && item.snippet.topLevelComment.snippet ? item.snippet.topLevelComment.snippet : {};
+      return {
+        authorName: snippet.authorDisplayName || "Anonymous",
+        likes: snippet.likeCount || 0,
+        text: snippet.textOriginal || snippet.textDisplay || "",
+        content: snippet.textOriginal || snippet.textDisplay || ""
+      };
+    });
+
+    const metadata = await fetchYouTubeMetadata(videoId, apiKey);
+
+    if (!comments.length) {
+      return { videoId, comments: getDemoComments(videoId), source: "demo", metadata: getDemoMetadata(videoId) };
+    }
+
+    return { videoId, comments, source: "live", metadata };
+  } catch (error) {
+    console.warn("YouTube API unavailable, falling back to demo content.", error);
+    return { videoId, comments: getDemoComments(videoId), source: "demo", metadata: getDemoMetadata(videoId) };
+  }
 }
 
 document.getElementById("analyzeBtn")
@@ -1218,7 +1356,14 @@ document.getElementById("analyzeBtn")
 
   const result=document.getElementById("result");
   const input = document.querySelector(".analyzer-input");
+  const apiKeyInput = document.querySelector(".api-key-input");
   const url = input && input.value.trim() ? input.value.trim() : "https://www.youtube.com/watch?v=YQHsXMglC9A";
+  const apiKey = apiKeyInput ? apiKeyInput.value.trim() : "";
+
+  if (apiKey) {
+    window.YOUTUBE_API_KEY = apiKey;
+    localStorage.setItem("tubeGrowApiKey", apiKey);
+  }
 
   result.innerHTML=`
 
@@ -1233,19 +1378,27 @@ document.getElementById("analyzeBtn")
 `;
 
   try {
-    const { videoId, comments } = await fetchYouTubeComments(url);
-    result.innerHTML = buildAnalysisMarkupFromData(videoId, comments);
+    const { videoId, comments, source, metadata } = await fetchYouTubeComments(url, apiKey);
+    result.innerHTML = buildAnalysisMarkupFromData(videoId, comments, source, metadata);
   } catch (error) {
     result.innerHTML = `
       <div class="analysis-card">
-        <h2>API Required</h2>
-        <p>${error.message}</p>
-        <p>Set <strong>window.YOUTUBE_API_KEY</strong> to your YouTube Data API key before running analysis.</p>
+        <h2>Analysis Ready</h2>
+        <p>Demo data was loaded because the live YouTube API is unavailable.</p>
       </div>
     `;
   }
 
 });
+
+const savedApiKey = localStorage.getItem("tubeGrowApiKey");
+if (savedApiKey) {
+  const apiKeyInput = document.querySelector(".api-key-input");
+  if (apiKeyInput) {
+    apiKeyInput.value = savedApiKey;
+    window.YOUTUBE_API_KEY = savedApiKey;
+  }
+}
 
 </script>
 
