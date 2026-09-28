@@ -1016,7 +1016,8 @@ document.querySelector(".analyze-now-btn")?.addEventListener("click", (event) =>
 });
 
 function getVideoId(url) {
-  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (!url) return null;
+  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/i);
   return match ? match[1] : null;
 }
 
@@ -1268,6 +1269,51 @@ async function fetchYouTubeMetadata(videoId, apiKey) {
   };
 }
 
+async function fetchAllComments(videoId, apiKey) {
+  const allComments = [];
+  let pageToken = null;
+  let pageCount = 0;
+  const maxPages = 50;
+
+  do {
+    let endpoint = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=${videoId}&maxResults=100&order=time&key=${apiKey}`;
+    if (pageToken) {
+      endpoint += `&pageToken=${encodeURIComponent(pageToken)}`;
+    }
+
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`YouTube comments request failed: ${response.status} ${text}`);
+    }
+
+    const data = await response.json();
+    const items = Array.isArray(data.items) ? data.items : [];
+
+    for (const item of items) {
+      const snippet = item?.snippet?.topLevelComment?.snippet;
+      if (!snippet) continue;
+      const text = snippet.textOriginal || snippet.textDisplay || "";
+      if (!text.trim()) continue;
+
+      allComments.push({
+        authorName: snippet.authorDisplayName || "Anonymous",
+        likes: snippet.likeCount || 0,
+        text,
+        content: text,
+        publishedAt: snippet.publishedAt || ""
+      });
+    }
+
+    pageToken = data.nextPageToken || null;
+    pageCount += 1;
+  } while (pageToken && pageCount < maxPages);
+
+  return allComments
+    .filter((comment, index, arr) => arr.findIndex((item) => item.text === comment.text && item.authorName === comment.authorName) === index)
+    .sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+}
+
 async function fetchYouTubeComments(videoUrl, apiKeyOverride = "") {
   const videoId = getVideoId(videoUrl);
   if (!videoId) {
@@ -1279,30 +1325,15 @@ async function fetchYouTubeComments(videoUrl, apiKeyOverride = "") {
     throw new Error("A valid YouTube Data API key is required to fetch real data from this video.");
   }
 
-  const endpoint = `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies&videoId=${videoId}&maxResults=100&key=${apiKey}`;
-  const response = await fetch(endpoint);
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`YouTube API request failed: ${response.status} ${text}`);
-  }
-
-  const data = await response.json();
-  const comments = (data.items || []).map((item) => {
-    const snippet = item.snippet && item.snippet.topLevelComment && item.snippet.topLevelComment.snippet ? item.snippet.topLevelComment.snippet : {};
-    return {
-      authorName: snippet.authorDisplayName || "Anonymous",
-      likes: snippet.likeCount || 0,
-      text: snippet.textOriginal || snippet.textDisplay || "",
-      content: snippet.textOriginal || snippet.textDisplay || ""
-    };
-  });
+  const [comments, metadata] = await Promise.all([
+    fetchAllComments(videoId, apiKey),
+    fetchYouTubeMetadata(videoId, apiKey)
+  ]);
 
   if (!comments.length) {
     throw new Error("This video has no public comments available through the YouTube API.");
   }
 
-  const metadata = await fetchYouTubeMetadata(videoId, apiKey);
   return { videoId, comments, metadata };
 }
 
