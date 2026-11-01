@@ -25,7 +25,7 @@ A comprehensive web application that helps YouTube creators optimize their conte
 - JWT Authentication
 
 ### APIs
-- YouTube Data API
+- YouTube Data API (accessed through the server-side proxy)
 - Razorpay/Stripe for payments
 
 ## Getting Started
@@ -38,15 +38,14 @@ A comprehensive web application that helps YouTube creators optimize their conte
 ### Installation
 
 1. Clone the repository
-2. Install dependencies for both frontend and backend
-3. Set up environment variables
-4. Start the development servers
+2. Copy `backend/.env.example` to `backend/.env` and set `YOUTUBE_API_KEY`. The key stays server-side and is never rendered in the browser.
+3. Start the backend and frontend servers
 
 ```bash
 # Backend
 cd backend
 npm install
-npm run dev
+npm start
 
 # Frontend
 cd frontend
